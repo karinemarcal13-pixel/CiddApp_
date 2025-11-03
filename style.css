@@ -1,239 +1,194 @@
 /* ================================
-   🌆 CiddApp - Estilo Modo Claro
-   Autor: Equipe CiddApp
-================================ */
-
-/* ======= Variáveis ======= */
+   ESTILO GERAL — CiddApp
+   ================================ */
 :root {
-  --cor-primaria: #0066cc;     /* Azul principal */
-  --cor-secundaria: #00bfa5;   /* Verde secundário */
-  --cor-fundo: #f5f9ff;        /* Fundo claro */
-  --cor-texto: #222;           /* Texto escuro */
-  --cor-header: #ffffff;       /* Cabeçalho */
-  --cor-card: #ffffff;         /* Cards */
-  --sombra: 0 4px 10px rgba(0,0,0,0.1);
-  --radius: 12px;
-  --transicao: 0.3s ease;
+  --cor-primaria: #1976d2;
+  --cor-secundaria: #64b5f6;
+  --cor-fundo: #f0f4f8;
+  --cor-texto: #222;
+  --cor-clara: #fff;
+  --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --raio: 12px;
 }
 
-/* ======= Reset básico ======= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-  font-family: "Poppins", Arial, sans-serif;
   background-color: var(--cor-fundo);
   color: var(--cor-texto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   line-height: 1.6;
-  scroll-behavior: smooth;
 }
 
-/* ======= Cabeçalho ======= */
+/* ================================
+   CABEÇALHO
+   ================================ */
 header {
-  background-color: var(--cor-header);
+  width: 100%;
+  background: var(--cor-primaria);
+  color: var(--cor-clara);
+  padding: 1.5rem 0;
   box-shadow: var(--sombra);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
 }
 
 header .container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 1rem 2rem;
-  flex-wrap: wrap;
-}
-
-header h1 {
-  color: var(--cor-primaria);
-  font-size: 1.8rem;
-  font-weight: 700;
+  gap: 1rem;
 }
 
 nav ul {
-  display: flex;
-  gap: 1rem;
   list-style: none;
+  display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 nav a {
+  color: var(--cor-clara);
   text-decoration: none;
-  color: var(--cor-texto);
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  transition: var(--transicao);
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 nav a:hover {
-  background-color: var(--cor-secundaria);
-  color: #fff;
+  color: var(--cor-secundaria);
 }
 
-/* ======= Hero (Início) ======= */
-.hero {
-  text-align: center;
-  padding: 6rem 2rem;
-  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
-  color: #fff;
-  border-radius: 0 0 2rem 2rem;
+/* ================================
+   SEÇÕES
+   ================================ */
+main {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 2rem;
 }
 
-.hero h2 {
-  font-size: 2.4rem;
+section {
+  background: var(--cor-clara);
+  padding: 2rem;
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  width: 100%;
+}
+
+h2 {
+  color: var(--cor-primaria);
   margin-bottom: 1rem;
 }
 
-.hero p {
-  font-size: 1.1rem;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-}
-
-.hero button {
-  background-color: #fff;
-  color: var(--cor-primaria);
+/* ================================
+   BOTÕES
+   ================================ */
+button {
+  background: var(--cor-primaria);
+  color: var(--cor-clara);
   border: none;
-  padding: 0.8rem 1.6rem;
-  border-radius: var(--radius);
+  border-radius: var(--raio);
+  padding: 0.8rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  font-weight: 600;
-  transition: var(--transicao);
+  transition: 0.3s;
 }
 
-.hero button:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.05);
+button:hover {
+  background: var(--cor-secundaria);
 }
 
-/* ======= Seções ======= */
-main section {
-  padding: 4rem 2rem;
-  max-width: 1000px;
-  margin: auto;
-}
-
-main h2 {
-  color: var(--cor-primaria);
-  margin-bottom: 1rem;
-  font-size: 1.8rem;
-  border-bottom: 3px solid var(--cor-secundaria);
-  display: inline-block;
-  padding-bottom: 0.3rem;
-}
-
-/* ======= Cards ======= */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.card {
-  background-color: var(--cor-card);
-  box-shadow: var(--sombra);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  text-align: center;
-  font-weight: 500;
-  transition: var(--transicao);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  background-color: var(--cor-secundaria);
-  color: #fff;
-}
-
-/* ======= Formulários ======= */
+/* ================================
+   FORMULÁRIOS
+   ================================ */
 form {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  max-width: 500px;
-  margin-top: 1.5rem;
-}
-
-label {
-  font-weight: 600;
+  align-items: center;
+  gap: 1rem;
 }
 
 input,
 textarea,
 select {
+  width: 80%;
   padding: 0.8rem;
   border: 1px solid #ccc;
-  border-radius: var(--radius);
-  font-size: 1rem;
-  background-color: #fff;
-  color: var(--cor-texto);
-  transition: var(--transicao);
+  border-radius: var(--raio);
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--cor-primaria);
-  box-shadow: 0 0 0 3px rgba(0,102,204,0.2);
-}
-
-button[type="submit"],
-button#explorar-btn {
-  background-color: var(--cor-primaria);
-  color: #fff;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: var(--transicao);
+label {
   font-weight: 600;
+  margin-top: 0.5rem;
 }
 
-button[type="submit"]:hover,
-button#explorar-btn:hover {
-  background-color: var(--cor-secundaria);
-  transform: translateY(-2px);
+textarea {
+  resize: none;
 }
 
-/* ======= Footer ======= */
-footer {
-  text-align: center;
-  padding: 1.5rem;
-  background-color: var(--cor-header);
+/* ================================
+   LISTAS E CARTÕES
+   ================================ */
+.cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+}
+
+.card {
+  background: var(--cor-secundaria);
+  color: var(--cor-clara);
+  padding: 1rem;
+  border-radius: var(--raio);
   box-shadow: var(--sombra);
-  font-size: 0.9rem;
-  color: var(--cor-texto);
-  border-top: 3px solid var(--cor-primaria);
+  transition: 0.3s;
+  width: 100%;
+  max-width: 200px;
 }
 
-/* ======= Responsividade ======= */
-@media (max-width: 768px) {
-  header .container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.card:hover {
+  transform: scale(1.05);
+  background: var(--cor-primaria);
+}
 
+/* ================================
+   RODAPÉ
+   ================================ */
+footer {
+  margin-top: 3rem;
+  padding: 1rem;
+  width: 100%;
+  background: var(--cor-primaria);
+  color: var(--cor-clara);
+  text-align: center;
+  box-shadow: var(--sombra);
+}
+
+/* ================================
+   RESPONSIVIDADE
+   ================================ */
+@media (max-width: 768px) {
   nav ul {
     flex-direction: column;
-    width: 100%;
   }
 
-  nav a {
-    display: block;
+  input,
+  textarea,
+  select {
     width: 100%;
-  }
-
-  .hero {
-    padding: 4rem 1rem;
   }
 }
-
 
