@@ -1,0 +1,112 @@
+// ==========================
+//  CiddApp — Script principal
+// ==========================
+
+// Rolagem suave ao clicar nos links do menu
+document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Botão "Explorar" → rola até a próxima seção
+const explorarBtn = document.getElementById('explorar-btn');
+if (explorarBtn) {
+  explorarBtn.addEventListener('click', () => {
+    document.getElementById('historia').scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+// Mostrar / ocultar eventos culturais
+const verEventosBtn = document.getElementById('ver-eventos');
+const listaEventos = document.getElementById('lista-eventos');
+if (verEventosBtn && listaEventos) {
+  verEventosBtn.addEventListener('click', () => {
+    const oculto = listaEventos.hasAttribute('hidden');
+    if (oculto) {
+      listaEventos.removeAttribute('hidden');
+      verEventosBtn.textContent = "Ocultar Eventos";
+      verEventosBtn.setAttribute('aria-expanded', 'true');
+    } else {
+      listaEventos.setAttribute('hidden', '');
+      verEventosBtn.textContent = "Ver Próximos Eventos";
+      verEventosBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+// Função genérica para exibir mensagem de sucesso
+function mostrarMensagem(tipo, nome) {
+  alert(`${tipo} enviada com sucesso! Obrigado, ${nome || "cidadão(a)"} 💙`);
+}
+
+// ==============================
+//  Envio de formulários
+// ==============================
+
+// Doações
+const formDoacao = document.getElementById('form-doacao');
+if (formDoacao) {
+  formDoacao.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('nome-doacao').value;
+    const valor = document.getElementById('valor-doacao').value;
+    if (valor <= 0) {
+      alert("Por favor, insira um valor válido para a doação.");
+      return;
+    }
+    mostrarMensagem("Doação", nome);
+    formDoacao.reset();
+  });
+}
+
+// Reclamações
+const formReclamacao = document.getElementById('form-reclamacao');
+if (formReclamacao) {
+  formReclamacao.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('nome-reclamacao').value;
+    mostrarMensagem("Reclamação", nome);
+    formReclamacao.reset();
+  });
+}
+
+// Agendamento médico
+const formAgendamento = document.getElementById('form-agendamento');
+if (formAgendamento) {
+  formAgendamento.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('nome-paciente').value;
+    const especialidade = document.getElementById('especialidade').value;
+    const data = document.getElementById('data').value;
+
+    if (!especialidade || !data) {
+      alert("Por favor, selecione uma especialidade e uma data.");
+      return;
+    }
+
+    alert(`✅ Agendamento confirmado!\n\nPaciente: ${nome}\nEspecialidade: ${especialidade}\nData: ${data}`);
+    formAgendamento.reset();
+  });
+}
+
+// Contato
+const formContato = document.getElementById('form-contato');
+if (formContato) {
+  formContato.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('nome').value;
+    mostrarMensagem("Mensagem de contato", nome);
+    formContato.reset();
+  });
+}
+
+// ==============================
+//  Feedback visual (opcional)
+// ==============================
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("mousedown", () => btn.classList.add("ativo"));
+  btn.addEventListener("mouseup", () => btn.classList.remove("ativo"));
+});

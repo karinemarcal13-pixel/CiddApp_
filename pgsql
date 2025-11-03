@@ -9,3 +9,12 @@ CiddApp_/                 ← Repositório no GitHub
 │   ├── mapa.png
 │   └── icons/
 └── README.md
+CiddApp_/
+│
+├── index.html
+├── style.css
+├── script.js
+└── /assets
+    ├── logo.png        ← (opcional, se quiser um logotipo)
+    ├── favicon.ico     ← (opcional)
+    └── imagens/        ← (para imagens do site)
