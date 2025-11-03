@@ -1,5 +1,21 @@
-[
-  { "nome": "Feira de Artesanato", "data": "10/11/2025", "local": "Praça Central", "hora": "10h" },
-  { "nome": "Festival Gastronômico", "data": "22/11/2025", "local": "Centro de Eventos", "hora": "19h" },
-  { "nome": "Natal na Cidade", "data": "15/12/2025", "local": "Praça da Igreja", "hora": "18h" }
-]
+{
+  "name": "ciddapp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.3"
+  }
+}

@@ -1,0 +1,10 @@
+# 🏛️ CiddApp — Sistema de Atendimento Municipal
+
+CiddApp é um sistema local de atendimento ao cidadão, desenvolvido em React + Tailwind.  
+Funciona inteiramente no navegador (usa `localStorage`).
+
+### 🚀 Rodar localmente
+
+```bash
+npm install
+npm run dev

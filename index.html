@@ -1,77 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CiddApp — Conectando Cidadãos e Cidade</title>
-  <meta name="description" content="CiddApp é a plataforma digital da cidade — serviços, agendamentos, eventos e comunicação direta com a prefeitura.">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="assets/favicon.ico">
-  <script defer src="script.js"></script>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <img src="img/logo.png" alt="Logo CiddApp" class="logo">
-      <h1>CiddApp</h1>
-      <nav>
-        <ul>
-          <li><a href="#inicio">Início</a></li>
-          <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#eventos">Eventos</a></li>
-          <li><a href="#localizacao">Localização</a></li>
-          <li><a href="#contato">Contato</a></li>
-        </ul>
-      </nav>
-      <input type="text" id="barra-pesquisa" placeholder="🔍 Pesquisar no CiddApp...">
-    </div>
-  </header>
-
-  <main>
-    <section id="inicio" class="hero">
-      <h2>Bem-vindo(a) à CiddApp 🌆</h2>
-      <p>Conectando cidadãos e cidade com serviços rápidos, transparentes e acessíveis.</p>
-    </section>
-
-    <section id="servicos" class="secao">
-      <h2>Serviços Municipais</h2>
-      <div class="botoes-servicos">
-        <button onclick="abrirFormulario('doacoes')">💖 Doações</button>
-        <button onclick="abrirFormulario('reclamacoes')">📢 Reclamações</button>
-        <button onclick="abrirFormulario('agendamento')">🩺 Agendamento Médico</button>
-      </div>
-      <div id="area-formularios"></div>
-    </section>
-
-    <section id="eventos" class="secao">
-      <h2>Agenda de Eventos</h2>
-      <div id="lista-eventos" class="lista-eventos"></div>
-    </section>
-
-    <section id="localizacao" class="secao">
-      <h2>Localização da Cidade</h2>
-      <iframe src="https://www.google.com/maps?q=Brasília,Brasil&output=embed" loading="lazy"></iframe>
-    </section>
-
-    <section id="contato" class="secao">
-      <h2>Contato da Prefeitura</h2>
-      <p><strong>Telefone:</strong> (11) 4002-8922</p>
-      <p><strong>Email:</strong> contato@ciddapp.gov.br</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 CiddApp — Conectando Cidadãos e Cidade.</p>
-  </footer>
-
-  <!-- Chatbot -->
-  <div id="chatbot">
-    <div id="chat-header" onclick="alternarChat()">💬 Atendimento Virtual</div>
-    <div id="chat-body" class="oculto">
-      <div id="chat-mensagens"></div>
-      <input type="text" id="chat-input" placeholder="Digite sua dúvida...">
-      <button id="chat-enviar">Enviar</button>
-    </div>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CiddApp - Atendimento Municipal</title>
+  </head>
+  <body class="bg-slate-50">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
