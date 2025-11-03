@@ -1,0 +1,5 @@
+[
+  { "nome": "Feira de Artesanato", "data": "10/11/2025", "local": "Praça Central", "hora": "10h" },
+  { "nome": "Festival Gastronômico", "data": "22/11/2025", "local": "Centro de Eventos", "hora": "19h" },
+  { "nome": "Natal na Cidade", "data": "15/12/2025", "local": "Praça da Igreja", "hora": "18h" }
+]

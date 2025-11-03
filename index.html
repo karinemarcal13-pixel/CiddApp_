@@ -1,182 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CiddApp — Conectando Cidadãos e Cidade</title>
-  <meta name="description" content="CiddApp é a plataforma digital oficial da cidade — conecte-se a serviços públicos, saúde, cultura e cidadania." />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="CiddApp é a plataforma digital da cidade — serviços, agendamentos, eventos e comunicação direta com a prefeitura.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/favicon.ico">
   <script defer src="script.js"></script>
 </head>
 <body>
-  <!-- ==================== HEADER ==================== -->
   <header>
     <div class="container">
+      <img src="img/logo.png" alt="Logo CiddApp" class="logo">
       <h1>CiddApp</h1>
-      <nav aria-label="Menu principal">
+      <nav>
         <ul>
           <li><a href="#inicio">Início</a></li>
-          <li><a href="#historia">História</a></li>
-          <li><a href="#pontos">Turismo</a></li>
-          <li><a href="#cultura">Cultura</a></li>
-          <li><a href="#localizacao">Localização</a></li>
           <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#doacoes">Doações</a></li>
-          <li><a href="#reclamacoes">Reclamações</a></li>
-          <li><a href="#agendamento">Agendamentos</a></li>
+          <li><a href="#eventos">Eventos</a></li>
+          <li><a href="#localizacao">Localização</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
       </nav>
+      <input type="text" id="barra-pesquisa" placeholder="🔍 Pesquisar no CiddApp...">
     </div>
   </header>
 
-  <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
   <main>
-    <!-- Início -->
     <section id="inicio" class="hero">
-      <div class="hero-content">
-        <h2>Bem-vindo(a) à CiddApp 🌆</h2>
-        <p>A cidade digital que conecta você a serviços, cultura e bem-estar.</p>
-        <button id="explorar-btn" aria-label="Explorar CiddApp">Explorar</button>
+      <h2>Bem-vindo(a) à CiddApp 🌆</h2>
+      <p>Conectando cidadãos e cidade com serviços rápidos, transparentes e acessíveis.</p>
+    </section>
+
+    <section id="servicos" class="secao">
+      <h2>Serviços Municipais</h2>
+      <div class="botoes-servicos">
+        <button onclick="abrirFormulario('doacoes')">💖 Doações</button>
+        <button onclick="abrirFormulario('reclamacoes')">📢 Reclamações</button>
+        <button onclick="abrirFormulario('agendamento')">🩺 Agendamento Médico</button>
       </div>
+      <div id="area-formularios"></div>
     </section>
 
-    <!-- História -->
-    <section id="historia">
-      <h2>História</h2>
-      <p>
-        A CiddApp foi criada com o propósito de aproximar o cidadão dos serviços municipais,
-        promovendo tecnologia, transparência e qualidade de vida. Um novo modelo de gestão pública
-        digital para o futuro das cidades brasileiras.
-      </p>
+    <section id="eventos" class="secao">
+      <h2>Agenda de Eventos</h2>
+      <div id="lista-eventos" class="lista-eventos"></div>
     </section>
 
-    <!-- Pontos Turísticos -->
-    <section id="pontos">
-      <h2>Pontos Turísticos</h2>
-      <ul class="cards">
-        <li class="card">Praça Central</li>
-        <li class="card">Museu Cultural</li>
-        <li class="card">Parque da Vida</li>
-        <li class="card">Centro de Eventos</li>
-      </ul>
+    <section id="localizacao" class="secao">
+      <h2>Localização da Cidade</h2>
+      <iframe src="https://www.google.com/maps?q=Brasília,Brasil&output=embed" loading="lazy"></iframe>
     </section>
 
-    <!-- Cultura -->
-    <section id="cultura">
-      <h2>Cultura e Eventos</h2>
-      <p>
-        Festivais, feiras e arte fazem parte do dia a dia da CiddApp. Descubra a energia cultural da nossa cidade!
-      </p>
-      <button id="ver-eventos" aria-expanded="false" aria-controls="lista-eventos">Ver Próximos Eventos</button>
-      <div id="lista-eventos" class="oculto" hidden>
-        <ul>
-          <li>🎶 Festival da Primavera — Setembro</li>
-          <li>🎨 Feira de Artesanato — Outubro</li>
-          <li>🍲 Festival Gastronômico — Novembro</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Localização -->
-    <section id="localizacao">
-      <h2>Localização</h2>
-      <p>A CiddApp está localizada no coração do Brasil 🌍</p>
-      <address>
-        📍 Avenida Central, 1000 – Centro, CiddApp, BR
-      </address>
-    </section>
-
-    <!-- Serviços -->
-    <section id="servicos">
-      <h2>Serviços Públicos</h2>
-      <ul class="servicos-lista">
-        <li>💡 Iluminação pública</li>
-        <li>🧹 Coleta de lixo e reciclagem</li>
-        <li>🏫 Educação e bolsas de estudo</li>
-        <li>🚑 Saúde e atendimento básico</li>
-        <li>🏛️ Atendimento ao cidadão</li>
-      </ul>
-    </section>
-
-    <!-- Doações -->
-    <section id="doacoes">
-      <h2>Doações 💖</h2>
-      <p>Contribua com nossos projetos sociais, educacionais e de saúde.</p>
-      <form id="form-doacao" aria-label="Formulário de doações">
-        <label for="nome-doacao">Nome:</label>
-        <input type="text" id="nome-doacao" name="nome" required />
-
-        <label for="valor-doacao">Valor (R$):</label>
-        <input type="number" id="valor-doacao" name="valor" min="1" step="0.01" required />
-
-        <button type="submit">Enviar Doação</button>
-      </form>
-    </section>
-
-    <!-- Reclamações -->
-    <section id="reclamacoes">
-      <h2>Reclamações 📢</h2>
-      <p>Nos ajude a melhorar! Envie sua reclamação abaixo:</p>
-      <form id="form-reclamacao" aria-label="Formulário de reclamações">
-        <label for="nome-reclamacao">Nome:</label>
-        <input type="text" id="nome-reclamacao" name="nome" required />
-
-        <label for="mensagem-reclamacao">Mensagem:</label>
-        <textarea id="mensagem-reclamacao" name="mensagem" rows="4" required></textarea>
-
-        <button type="submit">Enviar Reclamação</button>
-      </form>
-    </section>
-
-    <!-- Agendamento Médico -->
-    <section id="agendamento">
-      <h2>Agendamento Médico 🩺</h2>
-      <p>Agende sua consulta gratuita oferecida pela prefeitura.</p>
-      <form id="form-agendamento" aria-label="Formulário de agendamento médico">
-        <label for="nome-paciente">Nome do Paciente:</label>
-        <input type="text" id="nome-paciente" name="nome" required />
-
-        <label for="especialidade">Especialidade:</label>
-        <select id="especialidade" name="especialidade" required>
-          <option value="">Selecione</option>
-          <option value="clinico">Clínico Geral</option>
-          <option value="pediatria">Pediatria</option>
-          <option value="odontologia">Odontologia</option>
-          <option value="ginecologia">Ginecologia</option>
-        </select>
-
-        <label for="data">Data:</label>
-        <input type="date" id="data" name="data" required />
-
-        <button type="submit">Agendar Consulta</button>
-      </form>
-    </section>
-
-    <!-- Contato -->
-    <section id="contato">
-      <h2>Contato ☎️</h2>
-      <p><strong>Telefone da Prefeitura:</strong> (11) 4002-8922</p>
-      <p>Atendimento: Segunda a Sexta, das 8h às 18h</p>
-
-      <form id="form-contato" aria-label="Formulário de contato">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required />
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
-
-        <label for="mensagem">Mensagem:</label>
-        <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
-
-        <button type="submit">Enviar</button>
-      </form>
+    <section id="contato" class="secao">
+      <h2>Contato da Prefeitura</h2>
+      <p><strong>Telefone:</strong> (11) 4002-8922</p>
+      <p><strong>Email:</strong> contato@ciddapp.gov.br</p>
     </section>
   </main>
 
-  <!-- ==================== FOOTER ==================== -->
   <footer>
-    <p>© 2025 <strong>CiddApp</strong> — Conectando Cidadãos e Cidade.</p>
+    <p>© 2025 CiddApp — Conectando Cidadãos e Cidade.</p>
   </footer>
+
+  <!-- Chatbot -->
+  <div id="chatbot">
+    <div id="chat-header" onclick="alternarChat()">💬 Atendimento Virtual</div>
+    <div id="chat-body" class="oculto">
+      <div id="chat-mensagens"></div>
+      <input type="text" id="chat-input" placeholder="Digite sua dúvida...">
+      <button id="chat-enviar">Enviar</button>
+    </div>
+  </div>
 </body>
 </html>

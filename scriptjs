@@ -1,112 +1,84 @@
-// ==========================
-//  CiddApp — Script principal
-// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+  // Carregar eventos
+  fetch("data/eventos.json")
+    .then(res => res.json())
+    .then(eventos => {
+      const lista = document.getElementById("lista-eventos");
+      eventos.forEach(ev => {
+        const botao = document.createElement("button");
+        botao.textContent = `${ev.nome} — ${ev.data}`;
+        botao.onclick = () => alert(`📅 ${ev.nome}\n📍 Local: ${ev.local}\n🕒 ${ev.hora}`);
+        lista.appendChild(botao);
+      });
+    });
 
-// Rolagem suave ao clicar nos links do menu
-document.querySelectorAll('nav a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    target.scrollIntoView({ behavior: 'smooth' });
+  // Pesquisa
+  const pesquisa = document.getElementById("barra-pesquisa");
+  pesquisa.addEventListener("input", () => {
+    const termo = pesquisa.value.toLowerCase();
+    document.querySelectorAll("section").forEach(sec => {
+      sec.style.display = sec.textContent.toLowerCase().includes(termo) ? "block" : "none";
+    });
   });
+
+  // Chatbot
+  const chatInput = document.getElementById("chat-input");
+  const chatEnviar = document.getElementById("chat-enviar");
+  const chatMensagens = document.getElementById("chat-mensagens");
+
+  const respostas = {
+    ola: "Olá! 😊 Como posso te ajudar?",
+    horario: "Nosso horário de atendimento é das 8h às 18h.",
+    medico: "Para agendar consulta, clique em 🩺 Agendamento Médico.",
+    doacao: "Você pode fazer uma doação clicando em 💖 Doações.",
+    reclamar: "Envie sua reclamação em 📢 Reclamações.",
+    default: "Desculpe, não entendi. Tente outra pergunta!"
+  };
+
+  function responder(msg) {
+    const p = document.createElement("p");
+    p.textContent = "👤 " + msg;
+    chatMensagens.appendChild(p);
+
+    const resposta = document.createElement("p");
+    const chave = Object.keys(respostas).find(k => msg.toLowerCase().includes(k));
+    resposta.textContent = "🤖 " + (respostas[chave] || respostas.default);
+    chatMensagens.appendChild(resposta);
+
+    chatMensagens.scrollTop = chatMensagens.scrollHeight;
+  }
+
+  chatEnviar.onclick = () => {
+    if (chatInput.value.trim() !== "") {
+      responder(chatInput.value);
+      chatInput.value = "";
+    }
+  };
 });
 
-// Botão "Explorar" → rola até a próxima seção
-const explorarBtn = document.getElementById('explorar-btn');
-if (explorarBtn) {
-  explorarBtn.addEventListener('click', () => {
-    document.getElementById('historia').scrollIntoView({ behavior: 'smooth' });
-  });
+function abrirFormulario(tipo) {
+  const area = document.getElementById("area-formularios");
+  area.innerHTML = "";
+
+  if (tipo === "doacoes") {
+    area.innerHTML = `<h3>💖 Doações</h3>
+      <input type='text' placeholder='Seu nome'>
+      <input type='number' placeholder='Valor (R$)'>
+      <button onclick="alert('Doação registrada!')">Enviar</button>`;
+  }
+  if (tipo === "reclamacoes") {
+    area.innerHTML = `<h3>📢 Reclamações</h3>
+      <textarea placeholder='Descreva sua reclamação'></textarea>
+      <button onclick="alert('Reclamação enviada!')">Enviar</button>`;
+  }
+  if (tipo === "agendamento") {
+    area.innerHTML = `<h3>🩺 Agendamento Médico</h3>
+      <input type='text' placeholder='Nome do paciente'>
+      <input type='date'>
+      <button onclick="alert('Consulta agendada com sucesso!')">Agendar</button>`;
+  }
 }
 
-// Mostrar / ocultar eventos culturais
-const verEventosBtn = document.getElementById('ver-eventos');
-const listaEventos = document.getElementById('lista-eventos');
-if (verEventosBtn && listaEventos) {
-  verEventosBtn.addEventListener('click', () => {
-    const oculto = listaEventos.hasAttribute('hidden');
-    if (oculto) {
-      listaEventos.removeAttribute('hidden');
-      verEventosBtn.textContent = "Ocultar Eventos";
-      verEventosBtn.setAttribute('aria-expanded', 'true');
-    } else {
-      listaEventos.setAttribute('hidden', '');
-      verEventosBtn.textContent = "Ver Próximos Eventos";
-      verEventosBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
+function alternarChat() {
+  document.getElementById("chat-body").classList.toggle("oculto");
 }
-
-// Função genérica para exibir mensagem de sucesso
-function mostrarMensagem(tipo, nome) {
-  alert(`${tipo} enviada com sucesso! Obrigado, ${nome || "cidadão(a)"} 💙`);
-}
-
-// ==============================
-//  Envio de formulários
-// ==============================
-
-// Doações
-const formDoacao = document.getElementById('form-doacao');
-if (formDoacao) {
-  formDoacao.addEventListener('submit', e => {
-    e.preventDefault();
-    const nome = document.getElementById('nome-doacao').value;
-    const valor = document.getElementById('valor-doacao').value;
-    if (valor <= 0) {
-      alert("Por favor, insira um valor válido para a doação.");
-      return;
-    }
-    mostrarMensagem("Doação", nome);
-    formDoacao.reset();
-  });
-}
-
-// Reclamações
-const formReclamacao = document.getElementById('form-reclamacao');
-if (formReclamacao) {
-  formReclamacao.addEventListener('submit', e => {
-    e.preventDefault();
-    const nome = document.getElementById('nome-reclamacao').value;
-    mostrarMensagem("Reclamação", nome);
-    formReclamacao.reset();
-  });
-}
-
-// Agendamento médico
-const formAgendamento = document.getElementById('form-agendamento');
-if (formAgendamento) {
-  formAgendamento.addEventListener('submit', e => {
-    e.preventDefault();
-    const nome = document.getElementById('nome-paciente').value;
-    const especialidade = document.getElementById('especialidade').value;
-    const data = document.getElementById('data').value;
-
-    if (!especialidade || !data) {
-      alert("Por favor, selecione uma especialidade e uma data.");
-      return;
-    }
-
-    alert(`✅ Agendamento confirmado!\n\nPaciente: ${nome}\nEspecialidade: ${especialidade}\nData: ${data}`);
-    formAgendamento.reset();
-  });
-}
-
-// Contato
-const formContato = document.getElementById('form-contato');
-if (formContato) {
-  formContato.addEventListener('submit', e => {
-    e.preventDefault();
-    const nome = document.getElementById('nome').value;
-    mostrarMensagem("Mensagem de contato", nome);
-    formContato.reset();
-  });
-}
-
-// ==============================
-//  Feedback visual (opcional)
-// ==============================
-document.querySelectorAll("button").forEach(btn => {
-  btn.addEventListener("mousedown", () => btn.classList.add("ativo"));
-  btn.addEventListener("mouseup", () => btn.classList.remove("ativo"));
-});
