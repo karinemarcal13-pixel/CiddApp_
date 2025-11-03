@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CiddApp — Portal Municipal</title>
+  <meta name="description" content="CiddApp é o portal oficial do município — informações sobre serviços, saúde, cultura e cidadania.">
+  <link rel="stylesheet" href="style/style.css">
+  <script defer src="script/script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ======= Cabeçalho ======= -->
+  <header>
+    <div class="container">
+      <h1>CiddApp</h1>
+      <nav aria-label="Menu principal">
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#localizacao">Localização</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#doacoes">Doações</a></li>
+          <li><a href="#reclamacoes">Reclamações</a></li>
+          <li><a href="#solicitacoes">Solicitações Médicas</a></li>
+          <li><a href="#agendamentos">Agendamentos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======= Início ======= -->
+    <section id="inicio" class="hero">
+      <h2>Bem-vindo(a) ao CiddApp 🌆</h2>
+      <p>Conectando cidadãos aos serviços e informações da cidade de forma moderna e acessível.</p>
+      <button id="explorar-btn">Explorar</button>
+    </section>
+
+    <!-- ======= Localização ======= -->
+    <section id="localizacao">
+      <h2>Localização</h2>
+      <p>O CiddApp está localizado no coração do município, acessível a todos.</p>
+      <address>
+        📍 Rua Central, 123 – Centro, Cidade, Estado, Brasil
+      </address>
+      <!-- Google Maps embed opcional -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!..."
+        width="100%"
+        height="300"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+      </iframe>
+    </section>
+
+    <!-- ======= Serviços ======= -->
+    <section id="servicos">
+      <h2>Serviços</h2>
+      <ul class="cards">
+        <li class="card">Emissão de Documentos</li>
+        <li class="card">Atendimento Social</li>
+        <li class="card">Cultura e Eventos</li>
+        <li class="card">Educação</li>
+        <li class="card">Saúde</li>
+      </ul>
+    </section>
+
+    <!-- ======= Doações ======= -->
+    <section id="doacoes">
+      <h2>Doações 💖</h2>
+      <p>Contribua com projetos sociais, educacionais e de saúde do CiddApp.</p>
+      <form id="form-doacao">
+        <label for="nome-doacao">Nome:</label>
+        <input type="text" id="nome-doacao" name="nome" required>
+
+        <label for="valor-doacao">Valor (R$):</label>
+        <input type="number" id="valor-doacao" name="valor" min="1" step="0.01" required>
+
+        <button type="submit">Enviar Doação</button>
+      </form>
+    </section>
+
+    <!-- ======= Reclamações ======= -->
+    <section id="reclamacoes">
+      <h2>Reclamações 📢</h2>
+      <p>Nos ajude a melhorar os serviços do CiddApp. Envie sua reclamação abaixo:</p>
+      <form id="form-reclamacao">
+        <label for="nome-reclamacao">Nome:</label>
+        <input type="text" id="nome-reclamacao" name="nome" required>
+
+        <label for="mensagem-reclamacao">Mensagem:</label>
+        <textarea id="mensagem-reclamacao" name="mensagem" rows="4" required></textarea>
+
+        <button type="submit">Enviar Reclamação</button>
+      </form>
+    </section>
+
+    <!-- ======= Solicitações Médicas ======= -->
+    <section id="solicitacoes">
+      <h2>Solicitações Médicas 🏥</h2>
+      <p>Solicite atendimentos médicos ou exames oferecidos pelo CiddApp.</p>
+      <form id="form-solicitacao">
+        <label for="nome-solicitante">Nome do Paciente:</label>
+        <input type="text" id="nome-solicitante" name="nome" required>
+
+        <label for="tipo-solicitacao">Tipo de Solicitação:</label>
+        <select id="tipo-solicitacao" name="tipo" required>
+          <option value="">Selecione</option>
+          <option value="consulta">Consulta Médica</option>
+          <option value="exame">Exame Laboratorial</option>
+          <option value="vacina">Vacinação</option>
+        </select>
+
+        <label for="descricao-solicitacao">Descrição:</label>
+        <textarea id="descricao-solicitacao" name="descricao" rows="4" required></textarea>
+
+        <button type="submit">Enviar Solicitação</button>
+      </form>
+    </section>
+
+    <!-- ======= Agendamentos ======= -->
+    <section id="agendamentos">
+      <h2>Agendamentos 📅</h2>
+      <p>Agende consultas ou serviços disponíveis no CiddApp.</p>
+      <form id="form-agendamento">
+        <label for="nome-agendamento">Nome:</label>
+        <input type="text" id="nome-agendamento" name="nome" required>
+
+        <label for="servico-agendamento">Serviço:</label>
+        <select id="servico-agendamento" name="servico" required>
+          <option value="">Selecione</option>
+          <option value="consulta">Consulta Médica</option>
+          <option value="documento">Emissão de Documentos</option>
+          <option value="atendimento-social">Atendimento Social</option>
+        </select>
+
+        <label for="data-agendamento">Data:</label>
+        <input type="date" id="data-agendamento" name="data" required>
+
+        <button type="submit">Agendar</button>
+      </form>
+    </section>
+
+    <!-- ======= Contato ======= -->
+    <section id="contato">
+      <h2>Contato ☎️</h2>
+      <p><strong>Telefone do CiddApp:</strong> (11) 4002-8922</p>
+      <p>Atendimento: Segunda a Sexta, das 8h às 18h</p>
+      <form id="form-contato">
+        <label for="nome-contato">Nome:</label>
+        <input type="text" id="nome-contato" name="nome" required>
+
+        <label for="email-contato">Email:</label>
+        <input type="email" id="email-contato" name="email" required>
+
+        <label for="mensagem-contato">Mensagem:</label>
+        <textarea id="mensagem-contato" name="mensagem" rows="4" required></textarea>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 CiddApp — Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>
