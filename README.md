@@ -20,26 +20,42 @@ Aplicação web moderna e responsiva para apresentação e simulação de consó
 - Notificação visual (toast) ao enviar com sucesso
 - Pré-preenchimento com dados salvos anteriormente
 
-### 3. **Sistema de Notificações** 🔔
+### 3. **Envio de Contatos para Você** 📱
+- **Automático via WhatsApp** - Abre WhatsApp Web com os dados do cliente
+- Mensagem formatada com todos os detalhes
+- Você recebe os leads em tempo real
+- Cliente vê confirmação de envio
+
+### 4. **Painel Admin para Rosani** 👑
+- Acesse com `#admin-panel` na URL (senha: `rosani2025`)
+- Visualize todos os contatos recebidos
+- Botão de WhatsApp direto para cada contato
+- Copiar e-mail em um clique
+- Marcar contatos como respondidos
+- **Exportar em CSV** para análise em Excel
+- Deletar dados quando necessário
+
+### 5. **Sistema de Notificações** 🔔
 - Toast notifications que aparecem no canto inferior direito
 - Desaparecem automaticamente após 4 segundos
 - Animação suave de entrada e saída
 - Design moderno e responsivo
 
-### 4. **Interface Responsiva** 📱
+### 6. **Interface Responsiva** 📱
 - Compatível com desktop, tablet e mobile
 - Design adaptativo que se ajusta a qualquer tamanho de tela
 - Menu de navegação fluido
 - Botões e inputs otimizados para toque
 
-### 5. **Persistência de Dados** 💾
+### 7. **Persistência de Dados** 💾
 - localStorage para salvar:
   - Última simulação realizada
   - Dados de contato atuais
-  - Histórico de leads (contatos)
+  - Histórico completo de leads (contatos)
+  - Status de respondidos
 - Dados recuperados automaticamente ao carregar a página
 
-### 6. **Design Premium** 🎨
+### 8. **Design Premium** 🎨
 - Gradientes modernos
 - Sombras sutis
 - Animações suaves
@@ -61,7 +77,15 @@ Aplicação web moderna e responsiva para apresentação e simulação de consó
 2. Selecione o tipo de consórcio que tem interesse
 3. Adicione uma mensagem (opcional)
 4. Clique em "Enviar mensagem"
-5. Receba confirmação visual
+5. **WhatsApp Web abre automaticamente** com os dados
+6. Você recebe a mensagem do cliente
+
+### Painel Admin (Apenas Rosani)
+1. Acesse `seu-site.com/#admin-panel`
+2. Digite a senha: `rosani2025`
+3. Visualize todos os contatos
+4. Clique em WhatsApp para contactar cliente
+5. Exporte dados em CSV quando necessário
 
 ### Planos Rápidos
 - Clique nos botões "Simular este plano" para pré-preencer o simulador com valores sugeridos
@@ -99,6 +123,8 @@ Aplicação web moderna e responsiva para apresentação e simulação de consó
 - `rm_consorcios_leads_v1` - Array de todos os leads/contatos
 - `rm_consorcios_contato_atual` - Dados do último contato
 - `rm_consorcios_ultima_sim` - Última simulação realizada
+- `rm_consorcios_admin_logado` - Status de login do admin
+- `rm_lead_{id}_respondido` - Marca contatos como respondidos
 
 ### JavaScript Functions
 
@@ -118,7 +144,18 @@ Pré-preenche o simulador com valores dos planos
 Processa envio do formulário de contato
 - Valida campos obrigatórios
 - Salva no localStorage
-- Mostra notificação
+- Abre WhatsApp Web com os dados
+
+#### `enviarParaRosani(lead)`
+Envia contato para WhatsApp Web da Rosani
+- **Configure seu número de WhatsApp em `script.js`**
+- Abre URL automaticamente: `wa.me/seu-numero`
+
+#### `abrirPainelAdmin()`
+Exibe painel com todos os contatos
+
+#### `exportarCSV()`
+Exporta contatos para arquivo CSV (Excel)
 
 #### `mostrarToast(texto)`
 Exibe notificação visual temporária

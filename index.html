@@ -196,10 +196,23 @@
             <textarea name="mensagem" id="mensagem" placeholder="Mensagem (opcional)" class="full" style="min-height:90px;padding:10px;border-radius:8px;border:1px solid #e6e9ef"></textarea>
             <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center">
               <button class="btn" type="submit">Enviar mensagem</button>
-              <div class="small muted">Ao enviar, salvamos temporariamente no seu navegador para facilitar o atendimento.</div>
+              <div class="small muted">✓ Seus dados serão enviados para Rosani via WhatsApp e salvos em seu navegador.</div>
             </div>
           </div>
         </form>
+      </div>
+    </section>
+
+    <!-- Painel Admin (apenas para Rosani) -->
+    <section id="admin" style="margin-top:28px;display:none">
+      <div class="card">
+        <h2 style="margin:0 0 12px">📊 Painel de Contatos (Admin)</h2>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <button class="btn" onclick="abrirPainelAdmin()" style="padding:8px 12px;font-size:0.9rem">Ver Contatos</button>
+          <button onclick="exportarCSV()" style="padding:8px 12px;font-size:0.9rem;border-radius:10px;border:1px solid #e6e9ef;background:#fff;cursor:pointer">Exportar CSV</button>
+          <button onclick="limparTodosOsDados()" style="padding:8px 12px;font-size:0.9rem;border-radius:10px;border:1px solid #e6e9ef;background:#fff;cursor:pointer;color:#dc2626">Limpar Dados</button>
+        </div>
+        <div id="adminLista" style="max-height:400px;overflow-y:auto"></div>
       </div>
     </section>
 
