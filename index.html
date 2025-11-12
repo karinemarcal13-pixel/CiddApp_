@@ -3,120 +3,329 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CiddApp - Registrar Ocorrência</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <title>Rosani Machado - Consórcios de Automóveis e Casas</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+  <meta name="description" content="Consórcios de automóveis e imóveis - Rosani Machado. Simule parcelas e entre em contato para uma proposta personalizada." />
+  <style>
+    :root{
+      --blue:#0f62fe;
+      --blue-dark:#0446b3;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f6f8fb;
+      --radius:14px;
+      font-family: Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111;line-height:1.45}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{background:linear-gradient(90deg,var(--blue),var(--blue-dark));color:#fff;padding:18px;border-radius:10px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:8px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-weight:700}
+    nav{margin-left:auto}
+    nav a{color:rgba(255,255,255,0.95);text-decoration:none;margin-left:16px;font-weight:600}
+    .hero{display:flex;gap:24px;align-items:center;padding:36px 0}
+    .hero-left{flex:1}
+    .hero-right{flex:1;display:flex;justify-content:center}
+    .card{background:var(--card);padding:20px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(16,24,40,0.06)}
+    h1{margin:0 0 8px;font-size:28px}
+    p.lead{margin:0 0 16px;color:var(--muted)}
+    .btn{background:var(--blue);color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}.hero{flex-direction:column-reverse}}
+    .plan{padding:18px;border-radius:12px;border:1px solid rgba(15,98,254,0.06)}
+    .plan h3{margin:0 0 6px;color:var(--blue-dark)}
+    .muted{color:var(--muted);font-size:14px}
+    .price{font-weight:800;margin-top:8px}
+    .simulator-row{display:flex;gap:8px;margin-top:8px}
+    input,select{padding:10px;border-radius:8px;border:1px solid #e6e9ef;width:100%;font-size:15px}
+    form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    form .row .full{grid-column:1/-1}
+    footer{margin-top:28px;padding:18px;text-align:center;color:var(--muted)}
+    .toast{position:fixed;right:20px;bottom:20px;background:#0f5132;color:#e6fff1;padding:12px 16px;border-radius:10px;box-shadow:0 8px 22px rgba(2,6,23,0.12);display:none}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
 </head>
 <body>
-  <header>
-    <h1>CiddApp</h1>
-    <nav>
-      <a href="login.html">Entrar</a> | <a href="professor.html">Acesso Professor</a>
-    </nav>
-  </header>
+  <div class="container">
+    <header class="card" aria-label="Cabeçalho">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="brand">
+          <div class="logo">RM</div>
+          <div>
+            <div style="font-weight:800">Rosani Machado</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.9)">Consórcios - Automóveis & Imóveis</div>
+          </div>
+        </div>
+        <nav>
+          <a href="#planos">Planos</a>
+          <a href="#simulador">Simulador</a>
+          <a href="#contato">Contato</a>
+        </nav>
+      </div>
+    </header>
 
-  <main>
-    <section class="map-section">
-      <h2>Mapa de Ocorrências</h2>
-      <div id="map" style="height: 400px;"></div>
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Consórcios para automóveis e casas</h1>
+        <p class="lead">Planos seguros e personalizados. Simule parcelas em segundos e fale diretamente com a Rosani para uma proposta sem compromisso.</p>
+        <div style="display:flex;gap:10px">
+          <a class="btn" href="#simulador">Simular agora</a>
+          <a href="#contato" style="align-self:center;padding:10px 14px;border-radius:10px;background:#fff;color:var(--blue);text-decoration:none;font-weight:700">Fale com a Rosani</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="card" style="max-width:420px;width:100%">
+          <strong>Atendimento rápido</strong>
+          <p class="small">Telefone/WhatsApp: <strong>(00) 9 9999-9999</strong></p>
+          <p class="small">E-mail: <strong>rosani@consorcios.com</strong></p>
+          <hr style="margin:10px 0;border:none;border-top:1px solid #eef2f7" />
+          <p class="muted">Quer um plano para carro ou casa? Selecione no simulador e veja uma estimativa inicial.</p>
+        </div>
+      </div>
     </section>
 
-    <section class="form-section">
-      <h2>Registrar Ocorrência</h2>
-      <form id="reportForm">
-        <label>Título <input name="title" required /></label>
-        <label>Descrição <textarea name="description" required></textarea></label>
-        <label>Latitude <input name="lat" required /></label>
-        <label>Longitude <input name="lng" required /></label>
-        <label>Foto <input type="file" name="photo" accept="image/*" /></label>
-        <button type="submit">Enviar</button>
-      </form>
-      <div id="msg"></div>
+    <!-- Planos -->
+    <section id="planos" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px">
+        <h2 style="margin:0">Nossos Planos</h2>
+        <p class="small">Sem juros — administração inclusa conforme contrato.</p>
+      </div>
+
+      <div class="grid">
+        <div class="plan card">
+          <h3>Consórcio de Automóveis</h3>
+          <p class="muted">Plano focado em carros novos e seminovos. Prazos flexíveis e grupos formados continuamente.</p>
+          <div class="price">Carta média sugerida: R$ 50.000</div>
+          <div class="muted" style="margin-top:6px">Prazos: 60 a 120 prestações</div>
+          <div style="margin-top:12px">
+            <button class="btn" onclick="fillSimulator('auto',50000,60,120)">Simular este plano</button>
+          </div>
+        </div>
+
+        <div class="plan card">
+          <h3>Consórcio de Casas</h3>
+          <p class="muted">Para aquisição de imóvel residencial — prazos longos para facilitar o planejamento financeiro.</p>
+          <div class="price">Carta média sugerida: R$ 300.000</div>
+          <div class="muted" style="margin-top:6px">Prazos: 120 a 180 prestações</div>
+          <div style="margin-top:12px">
+            <button class="btn" onclick="fillSimulator('casa',300000,120,180)">Simular este plano</button>
+          </div>
+        </div>
+      </div>
     </section>
-  </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/app.js"></script>
-</body>
-</html>
+    <!-- Simulador -->
+    <section id="simulador" style="margin-top:28px">
+      <div class="card">
+        <h2 style="margin:0 0 6px">Simulador de Parcelas</h2>
+        <p class="muted" style="margin:0 0 12px">Estimativa rápida: não substitui proposta contratual. Exemplo sem considerar lances ou fundo de reserva.</p>
 
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CiddApp - Painel Professor</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <main>
-    <h2>Painel do Professor</h2>
-    <div id="welcome"></div>
-    <div id="stats"></div>
-    <button id="logout">Sair</button>
-  </main>
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:18px">
+          <div>
+            <label class="small">Plano</label>
+            <select id="planType" aria-label="Tipo de plano">
+              <option value="auto" data-price="50000" data-min="60" data-max="120">Automóveis — R$ 50.000 (60-120x)</option>
+              <option value="casa" data-price="300000" data-min="120" data-max="180">Casas — R$ 300.000 (120-180x)</option>
+            </select>
+
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <div style="flex:1">
+                <label class="small">Valor da carta (R$)</label>
+                <input id="valorCarta" type="number" min="0" step="100" value="50000" />
+              </div>
+              <div style="width:140px">
+                <label class="small">Prazos (meses)</label>
+                <input id="prazo" type="number" min="1" step="1" value="60" />
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <div style="flex:1">
+                <label class="small">Entrada / Lance (opcional)</label>
+                <input id="entrada" type="number" min="0" step="100" value="0" />
+              </div>
+              <div style="width:140px">
+                <label class="small">Taxa admin (%)</label>
+                <input id="taxa" type="number" min="0" step="0.1" value="12" />
+              </div>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px">
+              <button class="btn" onclick="calcular()">Calcular</button>
+              <button onclick="resetSim()" style="padding:10px 14px;border-radius:10px;border:1px solid #e6e9ef;background:#fff;cursor:pointer">Limpar</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="card" style="background:#fff;padding:18px">
+              <h3 style="margin:0 0 8px">Resultado</h3>
+              <div id="resultado" style="font-size:16px;color:#111">
+                <p class="muted">Preencha os dados à esquerda e clique em <strong>Calcular</strong>.</p>
+              </div>
+              <hr style="margin:12px 0;border:none;border-top:1px solid #eef2f7" />
+              <div class="small muted">Observações:</div>
+              <ul class="small muted">
+                <li>Simulação básica: parcela = (valor - entrada + taxaAdm) / prazo.</li>
+                <li>Taxa de administração aplicada sobre o valor total como porcentagem.</li>
+                <li>Para proposta real, entre em contato para analisar propostas com lances e fundo de reserva.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" style="margin-top:28px">
+      <div class="card">
+        <h2 style="margin:0 0 8px">Fale com a Rosani</h2>
+        <p class="muted" style="margin:0 0 12px">Preencha o formulário que entraremos em contato com uma simulação personalizada.</p>
+
+        <form id="contactForm" onsubmit="submitForm(event)" novalidate>
+          <div class="row">
+            <input name="nome" id="nome" placeholder="Seu nome" required />
+            <input name="telefone" id="telefone" placeholder="Telefone ou WhatsApp" required />
+            <input type="email" name="email" id="email" placeholder="Seu e-mail" class="full" required />
+            <select name="interesse" id="interesse" required>
+              <option value="">Quero um consórcio para...</option>
+              <option value="auto">Automóvel</option>
+              <option value="casa">Casa / Imóvel</option>
+            </select>
+            <textarea name="mensagem" id="mensagem" placeholder="Mensagem (opcional)" class="full" style="min-height:90px;padding:10px;border-radius:8px;border:1px solid #e6e9ef"></textarea>
+            <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center">
+              <button class="btn" type="submit">Enviar mensagem</button>
+              <div class="small muted">Ao enviar, salvamos temporariamente no seu navegador para facilitar o atendimento.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="small muted">© <span id="ano"></span> Rosani Machado - Consórcios. Site de demonstração.</div>
+    </footer>
+
+    <div id="toast" class="toast">Mensagem enviada — em breve responderemos!</div>
+  </div>
 
   <script>
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    document.getElementById('welcome').innerText = 'Olá, ' + (localStorage.getItem('name') || 'Professor');
+    // preencher ano
+    document.getElementById('ano').textContent = new Date().getFullYear();
 
-    if (!token || role !== 'professor') {
-      alert('Acesso restrito a professores. Faça login com uma conta de professor.');
-      window.location.href = '/login.html';
-    } else {
-      fetch('http://localhost:4000/api/reports/report/pdf', {
-        headers: { 'Authorization': 'Bearer ' + token }
-      }).then(r => r.json()).then(data => {
-        document.getElementById('stats').innerText = 'Total de ocorrências: ' + data.total + '\nStatus: ' + JSON.stringify(data.byStatus);
-      }).catch(err => {
-        document.getElementById('stats').innerText = 'Erro ao obter relatórios';
-      });
+    // preencher selects iniciais (sincroniza valores)
+    const planType = document.getElementById('planType');
+    const valorCarta = document.getElementById('valorCarta');
+    const prazo = document.getElementById('prazo');
+
+    planType.addEventListener('change', function(){
+      const opt = this.selectedOptions[0];
+      valorCarta.value = Number(opt.dataset.price || valorCarta.value);
+      prazo.value = Number(opt.dataset.min || prazo.value);
+      prazo.min = opt.dataset.min;
+      prazo.max = opt.dataset.max;
+    });
+
+    function fillSimulator(type, price, min, max){
+      // seleciona opção correspondente (se existir)
+      for (let i=0;i<planType.options.length;i++){
+        if (planType.options[i].value === type){
+          planType.selectedIndex = i;
+          planType.dispatchEvent(new Event('change'));
+          break;
+        }
+      }
+      valorCarta.value = price;
+      prazo.value = min;
+      window.scrollTo({top:document.getElementById('simulador').offsetTop - 20, behavior:'smooth'});
     }
 
-    document.getElementById('logout').addEventListener('click', () => {
-      localStorage.clear();
-      window.location.href = '/login.html';
-    });
-  </script>
-</body>
-</html>
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CiddApp - Login</title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <main class="center">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label>Email <input type="email" name="email" required /></label>
-      <label>Senha <input type="password" name="password" required /></label>
-      <button type="submit">Entrar</button>
-    </form>
-    <div id="msg"></div>
-  </main>
-  <script>
-    const api = 'http://localhost:4000/api/auth/login';
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    function calcular(){
+      const V = Number(document.getElementById('valorCarta').value) || 0;
+      const E = Number(document.getElementById('entrada').value) || 0;
+      let N = Number(document.getElementById('prazo').value) || 1;
+      const taxaPerc = Number(document.getElementById('taxa').value) || 0;
+
+      // validar prazo com limites do plano
+      const sel = planType.selectedOptions[0];
+      const min = Number(sel.dataset.min) || 1;
+      const max = Number(sel.dataset.max) || 1000;
+      if (N < min) N = min;
+      if (N > max) N = max;
+      prazo.value = N;
+
+      // taxa administrativa aplicada sobre o valor total
+      const taxaAdm = (taxaPerc/100) * V;
+
+      // valor financiado (ou saldo devedor do consórcio para parcelar)
+      const saldo = Math.max(0, V - E) + taxaAdm;
+
+      const parcela = saldo / N;
+      const parcelaRound = parcela.toFixed(2).replace('.',',');
+
+      const resultado = document.getElementById('resultado');
+      resultado.innerHTML = `
+        <div><strong>Plano:</strong> ${sel.textContent}</div>
+        <div style="margin-top:6px"><strong>Valor da carta:</strong> R$ ${V.toLocaleString('pt-BR')}</div>
+        <div><strong>Entrada / Lance:</strong> R$ ${E.toLocaleString('pt-BR')}</div>
+        <div><strong>Taxa administrativa (aplicada como % do valor):</strong> ${taxaPerc}% — R$ ${taxaAdm.toLocaleString('pt-BR')}</div>
+        <div style="margin-top:8px;font-size:18px"><strong>Parcelas:</strong> ${N}x de R$ ${parcelaRound}</div>
+        <div class="muted" style="margin-top:8px">Total aproximado (inclui taxa administrativa): R$ ${(saldo).toLocaleString('pt-BR')}</div>
+      `;
+    }
+
+    function resetSim(){
+      document.getElementById('valorCarta').value = planType.selectedOptions[0].dataset.price || 0;
+      document.getElementById('entrada').value = 0;
+      document.getElementById('prazo').value = planType.selectedOptions[0].dataset.min || 1;
+      document.getElementById('taxa').value = 12;
+      document.getElementById('resultado').innerHTML = '<p class="muted">Preencha os dados à esquerda e clique em <strong>Calcular</strong>.</p>';
+    }
+
+    // Formulário - salva no localStorage e mostra toast
+    function submitForm(e){
       e.preventDefault();
-      const f = e.target;
-      const body = { email: f.email.value, password: f.password.value };
-      const res = await fetch(api, { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(body) });
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('role', data.role);
-        localStorage.setItem('name', data.name);
-        alert('Login realizado!');
-        window.location.href = '/index.html';
-      } else {
-        document.getElementById('msg').innerText = data.message || JSON.stringify(data);
+      const nome = document.getElementById('nome').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const interesse = document.getElementById('interesse').value;
+      const mensagem = document.getElementById('mensagem').value.trim();
+
+      if (!nome || !telefone || !email || !interesse){
+        alert('Preencha nome, telefone, e-mail e selecione o tipo de consórcio.');
+        return;
       }
-    });
+
+      const lead = {
+        id: 'lead_' + Date.now(),
+        nome, telefone, email, interesse, mensagem, createdAt: new Date().toISOString()
+      };
+
+      // salvar array de leads no localStorage
+      const key = 'rm_consorcios_leads_v1';
+      const exists = JSON.parse(localStorage.getItem(key) || '[]');
+      exists.push(lead);
+      localStorage.setItem(key, JSON.stringify(exists));
+
+      // mostrar toast
+      const toast = document.getElementById('toast');
+      toast.textContent = 'Mensagem enviada — em breve a Rosani entrará em contato!';
+      toast.style.display = 'block';
+      setTimeout(()=> toast.style.display = 'none', 4200);
+
+      // limpar formulário
+      document.getElementById('contactForm').reset();
+    }
+
+    // inicializar valores
+    (function init(){
+      // set defaults from current option
+      const opt = planType.selectedOptions[0];
+      valorCarta.value = opt.dataset.price || valorCarta.value;
+      prazo.min = opt.dataset.min || 1;
+      prazo.max = opt.dataset.max || 9999;
+    })();
   </script>
 </body>
 </html>
