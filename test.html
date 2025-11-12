@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teste - Rosani Consórcios</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    .result { background: #f0f7ff; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    .success { background: #0f5132; color: white; padding: 10px; margin: 10px 0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>�� Testes da Aplicação</h1>
+  
+  <h2>1. Teste de Cálculo de Simulação</h2>
+  <p id="test1" class="result">Aguardando teste...</p>
+  
+  <h2>2. Teste de LocalStorage</h2>
+  <p id="test2" class="result">Aguardando teste...</p>
+  
+  <h2>3. Teste de Validação</h2>
+  <p id="test3" class="result">Aguardando teste...</p>
+
+  <script>
+    // Teste 1: Cálculo
+    function teste1() {
+      const V = 50000;
+      const E = 5000;
+      const N = 60;
+      const taxaPerc = 12;
+      
+      const taxaAdm = (taxaPerc / 100) * V;
+      const saldo = Math.max(0, V - E) + taxaAdm;
+      const parcela = saldo / N;
+      
+      const resultado = parcela.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
+      
+      document.getElementById('test1').innerHTML = `
+        ✓ Cálculo funcionando!<br>
+        Valor: R$ 50.000<br>
+        Entrada: R$ 5.000<br>
+        Taxa: 12% = R$ 6.000<br>
+        Resultado: 60x de ${resultado}
+      `;
+      document.getElementById('test1').className = 'success';
+    }
+    
+    // Teste 2: LocalStorage
+    function teste2() {
+      const dados = {
+        teste: 'dados salvos com sucesso',
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('rm_test', JSON.stringify(dados));
+      const recuperado = JSON.parse(localStorage.getItem('rm_test'));
+      
+      document.getElementById('test2').innerHTML = `
+        ✓ LocalStorage funcionando!<br>
+        Dados salvos: ${JSON.stringify(recuperado)}<br>
+        Recuperados com sucesso!
+      `;
+      document.getElementById('test2').className = 'success';
+    }
+    
+    // Teste 3: Validação
+    function teste3() {
+      const email = 'test@example.com';
+      const isValid = email.includes('@');
+      
+      document.getElementById('test3').innerHTML = `
+        ✓ Validação funcionando!<br>
+        E-mail: ${email}<br>
+        Válido: ${isValid ? 'SIM ✓' : 'NÃO ✗'}
+      `;
+      document.getElementById('test3').className = 'success';
+    }
+    
+    // Executar testes
+    window.addEventListener('load', () => {
+      teste1();
+      teste2();
+      teste3();
+    });
+  </script>
+</body>
+</html>

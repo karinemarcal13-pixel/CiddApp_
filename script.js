@@ -1,101 +1,332 @@
 /* ===========================================================
-   ROSANI MACHADO CONSÓRCIOS - SCRIPT INTERATIVO
+   ROSANI MACHADO CONSÓRCIOS - SCRIPT FUNCIONAL COMPLETO
    =========================================================== */
 
-// Espera o carregamento da página
+// Inicializa ao carregar página
 document.addEventListener("DOMContentLoaded", () => {
-  iniciarSimulador();
-  iniciarFormulario();
-  animacoesScroll();
+  inicializarPage();
 });
 
-/* ===========================================================
-   SIMULADOR DE CONSÓRCIO
-   =========================================================== */
-function iniciarSimulador() {
-  const form = document.getElementById("simulador-form");
-  const resultado = document.getElementById("resultado");
+function inicializarPage() {
+  // Preencher ano no rodapé
+  const anoEl = document.getElementById('ano');
+  if (anoEl) anoEl.textContent = new Date().getFullYear();
 
-  if (!form) return;
+  // Sincronizar selects de plano
+  const planType = document.getElementById('planType');
+  if (planType) {
+    planType.addEventListener('change', sincronizarPlano);
+    sincronizarPlano.call(planType);
+  }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  // Inicializar eventos
+  const calcBtn = document.querySelector('[onclick="calcular()"]');
+  if (calcBtn) calcBtn.addEventListener('click', calcular);
 
-    const tipo = form.querySelector("#tipo").value;
-    const valor = parseFloat(form.querySelector("#valor").value);
-    const parcelas = parseInt(form.querySelector("#parcelas").value);
+  const resetBtn = document.querySelector('[onclick="resetSim()"]');
+  if (resetBtn) resetBtn.addEventListener('click', resetSim);
 
-    if (!valor || !parcelas || parcelas <= 0) {
-      resultado.innerHTML = `<p style="color: red;">Preencha os valores corretamente!</p>`;
-      return;
-    }
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', submitForm);
+  }
 
-    // Taxa de administração simulada (em %)
-    const taxa = tipo === "auto" ? 0.12 : 0.10;
-    const valorFinal = valor + valor * taxa;
-    const valorParcela = valorFinal / parcelas;
-
-    resultado.innerHTML = `
-      <h4>Resultado da Simulação</h4>
-      <p><strong>Tipo de Consórcio:</strong> ${tipo === "auto" ? "Automóveis" : "Imóveis"}</p>
-      <p><strong>Valor Total:</strong> R$ ${valorFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</p>
-      <p><strong>Parcelas:</strong> ${parcelas}x de <strong>R$ ${valorParcela.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong></p>
-      <p style="font-size: 0.9rem; color: #6b7280;">
-        *Valores simulados, sujeitos a variação conforme plano e administradora.
-      </p>
-    `;
-  });
+  // Carregar dados salvos no localStorage
+  carregarDadosSalvos();
 }
 
 /* ===========================================================
-   FORMULÁRIO DE CONTATO
+   SINCRONIZAR PLANO
    =========================================================== */
-function iniciarFormulario() {
-  const form = document.getElementById("contato-form");
-  if (!form) return;
+function sincronizarPlano() {
+  const opt = this.selectedOptions[0];
+  const valorCarta = document.getElementById('valorCarta');
+  const prazo = document.getElementById('prazo');
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  if (valorCarta && opt.dataset.price) {
+    valorCarta.value = Number(opt.dataset.price);
+  }
 
-    const dados = {
-      nome: form.querySelector("#nome").value.trim(),
-      email: form.querySelector("#email").value.trim(),
-      mensagem: form.querySelector("#mensagem").value.trim(),
-    };
-
-    if (!dados.nome || !dados.email || !dados.mensagem) {
-      alert("Por favor, preencha todos os campos.");
-      return;
-    }
-
-    // Aqui você pode integrar com um backend real (ex: via fetch)
-    mostrarToast("Mensagem enviada com sucesso! 💌");
-    form.reset();
-  });
+  if (prazo) {
+    if (opt.dataset.min) prazo.min = opt.dataset.min;
+    if (opt.dataset.max) prazo.max = opt.dataset.max;
+    if (opt.dataset.min) prazo.value = Number(opt.dataset.min);
+  }
 }
 
 /* ===========================================================
-   TOAST DE MENSAGEM ENVIADA
+   PREENCHER SIMULADOR A PARTIR DOS PLANOS
+   =========================================================== */
+function fillSimulator(type, price, min, max) {
+  const planType = document.getElementById('planType');
+  const valorCarta = document.getElementById('valorCarta');
+  const prazo = document.getElementById('prazo');
+
+  // Encontrar e selecionar opção correspondente
+  for (let i = 0; i < planType.options.length; i++) {
+    if (planType.options[i].value === type) {
+      planType.selectedIndex = i;
+      planType.dispatchEvent(new Event('change'));
+      break;
+    }
+  }
+
+  if (valorCarta) valorCarta.value = price;
+  if (prazo) {
+    prazo.value = min;
+    prazo.min = min;
+    prazo.max = max;
+  }
+
+  // Scroll suave até o simulador
+  const simulador = document.getElementById('simulador');
+  if (simulador) {
+    setTimeout(() => {
+      simulador.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+}
+
+/* ===========================================================
+   CALCULAR PARCELAS
+   =========================================================== */
+function calcular() {
+  const valorCarta = document.getElementById('valorCarta');
+  const entrada = document.getElementById('entrada');
+  const prazo = document.getElementById('prazo');
+  const taxa = document.getElementById('taxa');
+  const planType = document.getElementById('planType');
+  const resultado = document.getElementById('resultado');
+
+  if (!valorCarta || !entrada || !prazo || !taxa || !resultado) return;
+
+  const V = Number(valorCarta.value) || 0;
+  const E = Number(entrada.value) || 0;
+  let N = Number(prazo.value) || 1;
+  const taxaPerc = Number(taxa.value) || 0;
+
+  // Validar prazo com limites do plano selecionado
+  const sel = planType.selectedOptions[0];
+  const min = Number(sel.dataset.min) || 1;
+  const max = Number(sel.dataset.max) || 1000;
+
+  if (N < min) N = min;
+  if (N > max) N = max;
+  prazo.value = N;
+
+  // Calcular taxa administrativa
+  const taxaAdm = (taxaPerc / 100) * V;
+
+  // Saldo a financiar
+  const saldo = Math.max(0, V - E) + taxaAdm;
+  const parcela = saldo / N;
+
+  // Formatar resultado
+  const parcelaFormatada = parcela.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  const taxaAdmFormatada = taxaAdm.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  const valorCartaFormatado = V.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  const entradaFormatada = E.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  const saldoFormatado = saldo.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  resultado.innerHTML = `
+    <div><strong>Plano:</strong> ${sel.textContent}</div>
+    <div style="margin-top:8px"><strong>Valor da carta:</strong> ${valorCartaFormatado}</div>
+    <div><strong>Entrada / Lance:</strong> ${entradaFormatada}</div>
+    <div><strong>Taxa administrativa (${taxaPerc}% do valor):</strong> ${taxaAdmFormatada}</div>
+    <div style="margin-top:12px;padding:12px;background:#f0f7ff;border-radius:8px;border-left:4px solid #0f62fe">
+      <strong style="font-size:18px">Parcelas:</strong> <span style="font-size:20px;color:#0f62fe">${N}x ${parcelaFormatada}</span>
+    </div>
+    <div class="muted" style="margin-top:10px">
+      <strong>Total a financiar:</strong> ${saldoFormatado}
+    </div>
+    <p class="muted" style="margin-top:8px;font-size:13px">
+      ✓ Valores simulados. Para proposta real com lances e fundo de reserva, contate a Rosani.
+    </p>
+  `;
+
+  // Salvar última simulação
+  const ultimaSim = {
+    tipo: sel.value,
+    valor: V,
+    entrada: E,
+    prazo: N,
+    taxa: taxaPerc,
+    timestamp: new Date().toISOString()
+  };
+  localStorage.setItem('rm_consorcios_ultima_sim', JSON.stringify(ultimaSim));
+}
+
+/* ===========================================================
+   RESETAR SIMULADOR
+   =========================================================== */
+function resetSim() {
+  const planType = document.getElementById('planType');
+  const valorCarta = document.getElementById('valorCarta');
+  const entrada = document.getElementById('entrada');
+  const prazo = document.getElementById('prazo');
+  const taxa = document.getElementById('taxa');
+  const resultado = document.getElementById('resultado');
+
+  if (planType && planType.selectedOptions[0]) {
+    const opt = planType.selectedOptions[0];
+    if (valorCarta) valorCarta.value = opt.dataset.price || 0;
+    if (prazo) prazo.value = opt.dataset.min || 1;
+  }
+  if (entrada) entrada.value = 0;
+  if (taxa) taxa.value = 12;
+
+  if (resultado) {
+    resultado.innerHTML = '<p class="muted">Preencha os dados à esquerda e clique em <strong>Calcular</strong>.</p>';
+  }
+}
+
+/* ===========================================================
+   ENVIAR FORMULÁRIO DE CONTATO
+   =========================================================== */
+function submitForm(e) {
+  e.preventDefault();
+
+  const nome = document.getElementById('nome')?.value.trim();
+  const telefone = document.getElementById('telefone')?.value.trim();
+  const email = document.getElementById('email')?.value.trim();
+  const interesse = document.getElementById('interesse')?.value;
+  const mensagem = document.getElementById('mensagem')?.value.trim();
+
+  if (!nome || !telefone || !email || !interesse) {
+    alert('Preencha nome, telefone, e-mail e selecione o tipo de consórcio.');
+    return;
+  }
+
+  // Validar email
+  if (!email.includes('@')) {
+    alert('E-mail inválido.');
+    return;
+  }
+
+  // Criar objeto com dados
+  const lead = {
+    id: 'lead_' + Date.now(),
+    nome,
+    telefone,
+    email,
+    interesse,
+    mensagem,
+    createdAt: new Date().toISOString()
+  };
+
+  // Salvar no localStorage
+  const key = 'rm_consorcios_leads_v1';
+  const leads = JSON.parse(localStorage.getItem(key) || '[]');
+  leads.push(lead);
+  localStorage.setItem(key, JSON.stringify(leads));
+
+  // Salvar também contato atual
+  localStorage.setItem('rm_consorcios_contato_atual', JSON.stringify({
+    nome,
+    email,
+    telefone
+  }));
+
+  // Mostrar toast
+  mostrarToast('✓ Mensagem enviada com sucesso! Rosani entrará em contato em breve.');
+
+  // Limpar formulário
+  document.getElementById('contactForm').reset();
+}
+
+/* ===========================================================
+   MOSTRAR NOTIFICAÇÃO (TOAST)
    =========================================================== */
 function mostrarToast(texto) {
-  let toast = document.querySelector(".toast");
+  let toast = document.getElementById('toast');
+  
   if (!toast) {
-    toast = document.createElement("div");
-    toast.classList.add("toast");
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.className = 'toast';
     document.body.appendChild(toast);
   }
 
   toast.textContent = texto;
-  toast.style.display = "block";
+  toast.style.display = 'block';
+  toast.style.opacity = '1';
 
   setTimeout(() => {
-    toast.style.opacity = "1";
-  }, 50);
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 400);
+  }, 4000);
+}
 
-  setTimeout(() => {
-    toast.style.opacity = "0";
-    setTimeout(() => (toast.style.display = "none"), 400);
-  }, 3000);
+/* ===========================================================
+   CARREGAR DADOS SALVOS
+   =========================================================== */
+function carregarDadosSalvos() {
+  // Tentar popular o formulário com contato anterior
+  const contatoSalvo = localStorage.getItem('rm_consorcios_contato_atual');
+  if (contatoSalvo) {
+    try {
+      const dados = JSON.parse(contatoSalvo);
+      const nomeEl = document.getElementById('nome');
+      const emailEl = document.getElementById('email');
+      const teleEl = document.getElementById('telefone');
+
+      if (nomeEl) nomeEl.value = dados.nome || '';
+      if (emailEl) emailEl.value = dados.email || '';
+      if (teleEl) teleEl.value = dados.telefone || '';
+    } catch (e) {
+      console.log('Erro ao carregar dados salvos');
+    }
+  }
+
+  // Tentar popular simulador com última simulação
+  const ultimaSim = localStorage.getItem('rm_consorcios_ultima_sim');
+  if (ultimaSim) {
+    try {
+      const sim = JSON.parse(ultimaSim);
+      const planType = document.getElementById('planType');
+      const valorCarta = document.getElementById('valorCarta');
+      const entrada = document.getElementById('entrada');
+      const prazo = document.getElementById('prazo');
+      const taxa = document.getElementById('taxa');
+
+      if (planType) {
+        for (let i = 0; i < planType.options.length; i++) {
+          if (planType.options[i].value === sim.tipo) {
+            planType.selectedIndex = i;
+            planType.dispatchEvent(new Event('change'));
+            break;
+          }
+        }
+      }
+      if (valorCarta) valorCarta.value = sim.valor || 50000;
+      if (entrada) entrada.value = sim.entrada || 0;
+      if (prazo) prazo.value = sim.prazo || 60;
+      if (taxa) taxa.value = sim.taxa || 12;
+    } catch (e) {
+      console.log('Erro ao carregar simulação anterior');
+    }
+  }
 }
 
 /* ===========================================================
