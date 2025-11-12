@@ -261,7 +261,7 @@ function submitForm(e) {
    =========================================================== */
 function enviarParaRosani(lead) {
   // Número de WhatsApp da Rosani (substituir pelo número real)
-  const numeroRosani = '5511999999999'; // (11) 9 9999-9999 formato internacional
+  const numeroRosani = '5543998721117'; // (43) 9 9872-1117 formato internacional
   
   // Formatar mensagem
   const tipoConsorcio = lead.interesse === 'auto' ? 'Automóvel' : 'Casa/Imóvel';
